@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Number World</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Number World">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1a1a2e">
+<link id="appIcon" rel="apple-touch-icon" href="">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+<style>
+
+/* ── RESET & BASE ── */
+
+- { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+
+  –bg:    #1a1a2e;
+
+  –card:  #16213e;
+
+  –card2: #0f3460;
+
+  –text:  #ffffff;
+
+  –soft:  #8892b0;
+
+  –block-size: 52px;
+
+  }
+
+  body {
+
+  font-family: ‘Nunito’, sans-serif;
+
+  background: var(–bg);
+
+  color: var(–text);
+
+  min-height: 100vh;
+
+  display: flex; flex-direction: column; align-items: center;
+
+  padding: 24px 16px 48px;
+
+  overflow-x: hidden;
+
+  }
+
+/* ── SPLASH ── */
+
+#splash {
+
+position: fixed; inset: 0; background: #1a1a2e; z-index: 9999;
+
+display: flex; flex-direction: column; align-items: center;
+
+justify-content: center; gap: 24px; transition: opacity 0.6s ease;
+
+}
+
+#splash.hide { opacity: 0; pointer-events: none; }
+
+.splash-blocks { display: flex; gap: 8px; align-items: flex-end; }
+
+.splash-block {
+
+width: 52px; border-radius: 10px;
+
+display: flex; align-items: center; justify-content: center;
+
+font-family: ‘Baloo 2’, cursive; font-size: 1.5rem; font-weight: 800;
+
+color: white; opacity: 0; transform: translateY(30px) scale(0.7);
+
+transition: opacity 0.35s ease, transform 0.35s ease;
+
+border-bottom: 4px solid rgba(0,0,0,0.25);
+
+}
+
+.splash-block.pop { opacity: 1; transform: translateY(0) scale(1); }
+
+.splash-title {
+
+font-family: ‘Baloo 2’, cursive; font-size: 2.6rem; font-weight: 800;
+
+color: #ffffff;
+
+opacity: 0; transform: translateY(10px);
+
+transition: opacity 0.4s ease 0.7s, transform 0.4s ease 0.7s;
+
+}
+
+.splash-title.show { opacity: 1; transform: translateY(0); }
+
+.splash-sub { color: #8892b0; font-size: 1rem; opacity: 0; transition: opacity 0.4s ease 1s; }
+
+.splash-sub.show { opacity: 1; }
+
+/* ── TOP CONTROLS ── */
+
+.top-controls {
+
+position: fixed; top: 14px; right: 14px;
+
+display: flex; gap: 8px; z-index: 200;
+
+}
+
+.ctrl-btn {
+
+background: var(–card); border: none; color: var(–text);
+
+border-radius: 50%; width: 46px; height: 46px; font-size: 1.3rem;
+
+cursor: pointer; transition: background 0.2s;
+
+display: flex; align-items: center; justify-content: center;
+
+border: 2px solid transparent;
+
+}
+
+.ctrl-btn:hover { background: var(–card2); }
+
+.ctrl-btn.active { border-color: #FFD700; }
+
+/* ── TITLE ── */
+
+h1 {
+
+font-family: ‘Baloo 2’, cursive;
+
+font-size: clamp(2rem, 6vw, 3.2rem);
+
+font-weight: 800;
+
+color: #ffffff;
+
+margin-bottom: 4px;
+
+text-align: center;
+
+}
+
+.subtitle { color: var(–soft); font-size: 1rem; margin-bottom: 28px; text-align: center; }
+
+/* ── PICKER ── */
+
+.picker { display: flex; align-items: center; gap: 24px; margin-bottom: 16px; }
+
+.arrow-btn {
+
+width: 68px; height: 68px; border-radius: 50%; border: none;
+
+background: var(–card); color: var(–text); font-size: 2rem;
+
+cursor: pointer; transition: transform 0.12s, background 0.2s;
+
+display: flex; align-items: center; justify-content: center;
+
+border: 2px solid var(–card2);
+
+}
+
+.arrow-btn:hover { background: var(–card2); transform: scale(1.1); }
+
+.arrow-btn:active { transform: scale(0.92); }
+
+.big-number {
+
+font-family: ‘Baloo 2’, cursive;
+
+font-size: clamp(3rem, 14vw, 9rem);
+
+font-weight: 800; min-width: 180px; text-align: center; line-height: 1;
+
+transition: color 0.25s, font-size 0.2s; cursor: pointer; user-select: none;
+
+-webkit-text-stroke: 3px rgba(0,0,0,0.3);
+
+}
+
+/* ── WORD DISPLAY ── */
+
+.word-display {
+
+display: flex; flex-wrap: wrap; justify-content: center; gap: 2px;
+
+margin-bottom: 24px; min-height: 58px; align-items: center;
+
+}
+
+.word-letter {
+
+font-family: ‘Baloo 2’, cursive;
+
+font-size: clamp(2rem, 7vw, 3.8rem);
+
+font-weight: 800;
+
+padding: 0 3px;
+
+border-radius: 6px;
+
+opacity: 0.3;
+
+transform: scale(0.88) translateY(8px);
+
+animation: letterIn 0.3s ease forwards;
+
+}
+
+@keyframes letterIn {
+
+to { opacity: 0.3; transform: scale(0.88) translateY(0); }
+
+}
+
+/* ── READ-ALONG BANNER ── */
+
+.read-banner {
+
+width: 100%; max-width: 640px;
+
+background: var(–card); border-radius: 16px;
+
+padding: 14px 20px; margin-bottom: 28px;
+
+text-align: center; border: 2px solid var(–card2);
+
+transition: border-color 0.3s;
+
+}
+
+.read-banner .rl-label {
+
+font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;
+
+color: var(–soft); margin-bottom: 8px;
+
+}
+
+.read-banner .rl-word {
+
+font-family: ‘Baloo 2’, cursive;
+
+font-size: clamp(1.8rem, 6vw, 3rem);
+
+font-weight: 800; letter-spacing: 6px;
+
+}
+
+.rl-letter { opacity: 0.25; transition: opacity 0.1s, color 0.1s; }
+
+.rl-letter.active { opacity: 1; }
+
+/* ── NUMBERBLOCKS TOWER ── */
+
+.blocks-section {
+
+width: 100%; max-width: 640px;
+
+background: var(–card); border-radius: 16px;
+
+padding: 20px; margin-bottom: 28px;
+
+border: 2px solid var(–card2);
+
+}
+
+.blocks-section-title {
+
+font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;
+
+color: var(–soft); margin-bottom: 16px; text-align: center;
+
+}
+
+/* The tower wraps columns side by side */
+
+.nb-tower {
+
+display: flex;
+
+flex-wrap: wrap;
+
+gap: 6px;
+
+justify-content: center;
+
+align-items: flex-end;         /* columns sit on same baseline */
+
+min-height: 60px;
+
+}
+
+/* Each column is a vertical stack of blocks */
+
+.nb-col {
+
+display: flex;
+
+flex-direction: column-reverse; /* block 1 at bottom, stack upward */
+
+gap: 4px;
+
+}
+
+.nb-block {
+
+width: var(–block-size);
+
+height: var(–block-size);
+
+border-radius: 10px;
+
+display: flex; align-items: center; justify-content: center;
+
+font-family: ‘Baloo 2’, cursive;
+
+font-size: 1.2rem; font-weight: 800;
+
+color: white;
+
+border-bottom: 5px solid rgba(0,0,0,0.22);
+
+border-right: 3px solid rgba(0,0,0,0.12);
+
+border-top: 3px solid rgba(255,255,255,0.18);
+
+border-left: 3px solid rgba(255,255,255,0.1);
+
+opacity: 0;
+
+transform: translateY(-18px) scale(0.7);
+
+transition: opacity 0.22s ease, transform 0.22s ease;
+
+cursor: default;
+
+user-select: none;
+
+}
+
+.nb-block.show {
+
+opacity: 1;
+
+transform: translateY(0) scale(1);
+
+}
+
+/* Eye detail on the top block of each column */
+
+.nb-block.has-eyes::after {
+
+content: ‘◉ ◉’;
+
+position: absolute;
+
+font-size: 0.45rem;
+
+letter-spacing: 3px;
+
+color: rgba(0,0,0,0.4);
+
+bottom: 10px;
+
+pointer-events: none;
+
+}
+
+.nb-block { position: relative; }
+
+.nb-overflow {
+
+color: var(–soft); font-size: 0.9rem; font-weight: 700;
+
+align-self: center; padding: 0 8px;
+
+}
+
+/* ── INFO CARDS ── */
+
+.cards {
+
+display: grid; grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+
+gap: 12px; width: 100%; max-width: 640px; margin-bottom: 28px;
+
+}
+
+.card {
+
+background: var(–card); border-radius: 16px; padding: 16px 12px;
+
+text-align: center; border: 2px solid var(–card2);
+
+transition: border-color 0.3s, transform 0.2s;
+
+}
+
+.card:hover { transform: translateY(-3px); }
+
+.card .label {
+
+font-size: 0.68rem; text-transform: uppercase; letter-spacing: 2px;
+
+color: var(–soft); margin-bottom: 6px;
+
+}
+
+.card .value { font-family: ‘Baloo 2’, cursive; font-size: 1.55rem; font-weight: 700; }
+
+/* ── COUNT BAR ── */
+
+.count-bar-wrap {
+
+width: 100%; max-width: 640px; background: var(–card);
+
+border-radius: 14px; padding: 18px 20px; margin-bottom: 28px;
+
+border: 2px solid var(–card2);
+
+}
+
+.count-bar-wrap h2 {
+
+font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;
+
+color: var(–soft); margin-bottom: 12px;
+
+}
+
+.count-track { display: flex; gap: 5px; flex-wrap: wrap; }
+
+.count-box {
+
+width: 34px; height: 34px; border-radius: 8px;
+
+display: flex; align-items: center; justify-content: center;
+
+font-weight: 700; font-size: 0.8rem;
+
+background: #0f3460; color: var(–soft);
+
+transition: background 0.2s, color 0.2s, transform 0.15s;
+
+border-bottom: 3px solid rgba(0,0,0,0.2);
+
+}
+
+.count-box.lit { color: white; transform: scale(1.12); }
+
+/* ── MULT STRIP ── */
+
+.mult-strip {
+
+width: 100%; max-width: 640px; background: var(–card);
+
+border-radius: 14px; padding: 18px 20px; margin-bottom: 20px;
+
+border: 2px solid var(–card2);
+
+}
+
+.mult-strip h2 {
+
+font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;
+
+color: var(–soft); margin-bottom: 12px;
+
+}
+
+.mult-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.mult-pill {
+
+padding: 7px 14px; border-radius: 50px; font-weight: 700; font-size: 0.88rem;
+
+background: var(–card2); color: var(–soft);
+
+transition: all 0.2s; cursor: pointer; border: none;
+
+}
+
+.mult-pill:hover { color: white; transform: scale(1.08); }
+
+/* ── PULSE ANIMATION ── */
+
+@keyframes bigpulse {
+
+0%   { transform: scale(1); }
+
+30%  { transform: scale(1.16); }
+
+100% { transform: scale(1); }
+
+}
+
+.pulse { animation: bigpulse 0.32s ease-out; }
+</style>
+</head>
+<body>
+<!-- SPLASH -->
+<div id="splash">
+<div class="splash-blocks" id="splashBlocks"></div>
+<div class="splash-title" id="splashTitle">✨ Number World</div>
+<div class="splash-sub"   id="splashSub">Let's explore numbers!</div>
+</div>
+<!-- TOP CONTROLS -->
+<div class="top-controls">
+<button class="ctrl-btn active" id="soundBtn" title="Toggle voice">🔊</button>
+<button class="ctrl-btn"        id="slowBtn"  title="Slow spelling">🐢</button>
+</div>
+<!-- HEADER -->
+<h1>✨ Number World</h1>
+<p class="subtitle">Tap the number to hear it!</p>
+<div id="modeBadge" style="
+
+  font-family:'Baloo 2',cursive; font-weight:800; font-size:0.85rem;
+
+  padding:6px 20px; border-radius:50px; color:white;
+
+  background:#26a65b; margin-bottom:18px; letter-spacing:1px;
+
+  transition: background 0.4s;
+
+">Counting by Ones</div>
+<!-- NUMBER PICKER -->
+<div class="picker">
+<button class="arrow-btn" id="prevBtn">◀</button>
+<div class="big-number"   id="bigNum">1</div>
+<button class="arrow-btn" id="nextBtn">▶</button>
+</div>
+<!-- BIG WORD -->
+<div class="word-display" id="wordDisplay"></div>
+<!-- READ-ALONG -->
+<div class="read-banner" id="readBanner">
+<div class="rl-label">📖 Read along — letters light up as we spell!</div>
+<div class="rl-word" id="rlWord"></div>
+</div>
+<!-- NUMBERBLOCKS TOWER -->
+<div class="blocks-section">
+<div class="blocks-section-title" id="blockTitle">Count the blocks</div>
+<div class="nb-tower" id="nbTower"></div>
+</div>
+<!-- INFO CARDS -->
+<div class="cards">
+<div class="card"><div class="label">Even or Odd?</div><div class="value" id="evenOdd">—</div></div>
+<div class="card"><div class="label">Squared</div>    <div class="value" id="squared">—</div></div>
+<div class="card"><div class="label">Double</div>     <div class="value" id="doubled">—</div></div>
+<div class="card"><div class="label">Half</div>       <div class="value" id="halved">—</div></div>
+<div class="card"><div class="label">Prime?</div>     <div class="value" id="prime">—</div></div>
+<div class="card"><div class="label">Factors</div>    <div class="value" id="factors" style="font-size:1rem">—</div></div>
+</div>
+<!-- COUNT TRACK -->
+<div class="count-bar-wrap">
+<h2>Count from 1 to <span id="countTo">1</span></h2>
+<div class="count-track" id="countTrack"></div>
+</div>
+<!-- MULTIPLICATION -->
+<div class="mult-strip">
+<h2>Multiplication table</h2>
+<div class="mult-row" id="multRow"></div>
+</div>
+<script>
+
+// ── Number names 0–100 ──
+
+function numberToWords(n) {
+
+  const ones = ['Zero','One','Two','Three','Four','Five','Six','Seven',
+
+    'Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen',
+
+    'Sixteen','Seventeen','Eighteen','Nineteen'];
+
+  const tens = ['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+
+  function twoDigits(n) {
+
+    if (n < 20) return ones[n];
+
+    if (n % 10 === 0) return tens[Math.floor(n/10)];
+
+    return tens[Math.floor(n/10)] + '-' + ones[n%10].toLowerCase();
+
+  }
+
+  function threeDigits(n) {
+
+    if (n < 100) return twoDigits(n);
+
+    const h = Math.floor(n/100);
+
+    const r = n % 100;
+
+    return ones[h] + ' Hundred' + (r > 0 ? ' ' + twoDigits(r) : '');
+
+  }
+
+  if (n === 0) return 'Zero';
+
+  if (n < 1000) return threeDigits(n);
+
+  if (n < 1000000) {
+
+    const t = Math.floor(n/1000);
+
+    const r = n % 1000;
+
+    return threeDigits(t) + ' Thousand' + (r > 0 ? ' ' + threeDigits(r) : '');
+
+  }
+
+  return n.toLocaleString(); // fallback
+
+}
+
+// ── Numberblocks solid colors ──
+
+const NB = [
+
+  '#aaaaaa', // 0
+
+  '#e63946', // 1 red
+
+  '#f4722b', // 2 orange
+
+  '#f7b731', // 3 yellow
+
+  '#26a65b', // 4 green
+
+  '#2980b9', // 5 blue
+
+  '#e91e8c', // 6 hot pink
+
+  '#8e44ad', // 7 purple
+
+  '#c0392b', // 8 dark red / crimson (octopus pink variant)
+
+  '#7f8c8d', // 9 grey
+
+  '#e84393', // 10 pink-red
+
+];
+
+// Dark text for light blocks
+
+const DARK_TEXT = new Set([2]); // orange-yellow might need dark — actually all white is fine
+
+function colorFor(n) {
+
+  if (n === 0) return NB[0];
+
+  // For hundreds/thousands, base color on the leading digit
+
+  if (n >= 1000) {
+
+    const leading = Math.floor(n / 1000) % 10 || 10;
+
+    return NB[leading] || NB[1];
+
+  }
+
+  if (n >= 100) {
+
+    const leading = Math.floor(n / 100) % 10 || 10;
+
+    return NB[leading] || NB[1];
+
+  }
+
+  const d = (n % 10 === 0) ? 10 : n % 10;
+
+  return NB[d] || NB[1];
+
+}
+
+// ── State ──
+
+let current  = 1;
+
+let soundOn  = true;
+
+let slowMode = false;
+
+let audioCtx = null;
+
+try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){}
+
+// ── Beep (tiny letter beep) ──
+
+function beepNote(idx) {
+
+  if (!audioCtx) return;
+
+  try {
+
+    const notes = [261,293,329,349,392,440,493,523,587,659,698];
+
+    const o = audioCtx.createOscillator();
+
+    const g = audioCtx.createGain();
+
+    o.connect(g); g.connect(audioCtx.destination);
+
+    o.type = 'sine';
+
+    o.frequency.value = notes[idx % notes.length];
+
+    g.gain.setValueAtTime(0.1, audioCtx.currentTime);
+
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+
+    o.start(); o.stop(audioCtx.currentTime + 0.11);
+
+  } catch(e){}
+
+}
+
+// ── Speech ──
+
+function getVoice() {
+
+  const vs = window.speechSynthesis.getVoices();
+
+  return vs.find(v => /samantha|karen|moira|fiona|victoria|zira|susan/i.test(v.name))
+
+      || vs.find(v => v.lang && v.lang.startsWith('en'))
+
+      || vs[0] || null;
+
+}
+
+function speak(text, rate, onEnd) {
+
+  if (!soundOn) { if (onEnd) onEnd(); return; }
+
+  window.speechSynthesis.cancel();
+
+  const u = new SpeechSynthesisUtterance(text);
+
+  u.rate = rate || 0.78; u.pitch = 1.05; u.volume = 1;
+
+  const v = getVoice(); if (v) u.voice = v;
+
+  if (onEnd) u.onend = onEnd;
+
+  window.speechSynthesis.speak(u);
+
+}
+
+// ── Spell out with letter highlights ──
+
+function spellOut(word, color) {
+
+  if (!soundOn) return;
+
+  const letters = word.replace(/-/g,'').split('');
+
+  const spans   = document.querySelectorAll('#rlWord .rl-letter');
+
+  const delay   = slowMode ? 340 : 200;
+
+  letters.forEach((_, i) => {
+
+    setTimeout(() => {
+
+      spans.forEach(s => { s.classList.remove('active'); s.style.color = ''; });
+
+      if (spans[i]) { spans[i].classList.add('active'); spans[i].style.color = color; }
+
+      beepNote(i);
+
+    }, i * delay);
+
+  });
+
+  setTimeout(() => {
+
+    spans.forEach(s => { s.classList.remove('active'); s.style.color = ''; });
+
+  }, letters.length * delay + 500);
+
+}
+
+// ── Build Numberblocks tower ──
+
+// Layout: up to 10 blocks per column, stacked bottom-to-top
+
+function buildTower(n) {
+
+  const tower = document.getElementById('nbTower');
+
+  tower.innerHTML = '';
+
+  document.getElementById('blockTitle').textContent =
+
+    n === 0 ? 'Zero blocks' :
+
+    n === 100  ? '🎉 One Hundred Blocks!' :
+
+    n >= 1000  ? `🚀 ${n.toLocaleString()} — showing 50 blocks` :
+
+    n > 100    ? `🌟 ${n.toLocaleString()} — showing 50 blocks` :
+
+                 `${n} block${n === 1 ? '' : 's'}`;
+
+  if (n === 0) {
+
+    tower.innerHTML = '<span style="color:#8892b0;font-size:1rem;">No blocks yet!</span>';
+
+    return;
+
+  }
+
+  const MAX_SHOW = 50; // max blocks to render
+
+  const COLS_HEIGHT = 10; // blocks per column (like the show)
+
+  const show = Math.min(n, MAX_SHOW);
+
+  const fullCols = Math.floor(show / COLS_HEIGHT);
+
+  const remainder = show % COLS_HEIGHT;
+
+  const colCount = fullCols + (remainder > 0 ? 1 : 0);
+
+  // Responsive: shrink block size if too many columns
+
+  const maxW = Math.min(window.innerWidth - 80, 600);
+
+  const needed = colCount * (52 + 6);
+
+  if (needed > maxW) {
+
+    const newSize = Math.max(24, Math.floor((maxW / colCount) - 6));
+
+    tower.style.setProperty('--block-size', newSize + 'px');
+
+  } else {
+
+    tower.style.removeProperty('--block-size');
+
+  }
+
+  let globalIdx = 0;
+
+  for (let c = 0; c < colCount; c++) {
+
+    const height = (c < fullCols) ? COLS_HEIGHT : remainder;
+
+    const col = document.createElement('div');
+
+    col.className = 'nb-col';
+
+    for (let r = 0; r < height; r++) {
+
+      const blockNum = globalIdx + 1;
+
+      const block = document.createElement('div');
+
+      block.className = 'nb-block';
+
+      block.style.background = colorFor(n);
+
+      // Show the block number inside
+
+      block.textContent = blockNum;
+
+      // Top block of this column gets eyes
+
+      if (r === height - 1) block.classList.add('has-eyes');
+
+      col.appendChild(block);
+
+      // Staggered pop-in animation
+
+      const delay = globalIdx * 35;
+
+      setTimeout(() => block.classList.add('show'), delay);
+
+      globalIdx++;
+
+    }
+
+    tower.appendChild(col);
+
+  }
+
+  // Show overflow label if needed
+
+  if (n > MAX_SHOW) {
+
+    const lbl = document.createElement('div');
+
+    lbl.className = 'nb-overflow';
+
+    lbl.textContent = `+${n - MAX_SHOW} more`;
+
+    tower.appendChild(lbl);
+
+  }
+
+}
+
+// ── Main render ──
+
+function render(n) {
+
+  const color = colorFor(n);
+
+  const word  = numberToWords(n);
+
+  const clean = word.replace(/-/g, ' ');
+
+  // Big number — solid color
+
+  const bigEl = document.getElementById('bigNum');
+
+  bigEl.textContent = n;
+
+  bigEl.style.color = color;
+
+  bigEl.style.textShadow = 'none';
+
+  // Big word letters
+
+  const wd = document.getElementById('wordDisplay');
+
+  wd.innerHTML = '';
+
+  clean.split('').forEach((ch, i) => {
+
+    const s = document.createElement('span');
+
+    s.className = 'word-letter';
+
+    s.textContent = ch === ' ' ? '\u00A0' : ch;
+
+    s.style.color = color;
+
+    s.style.animationDelay = `${i * 38}ms`;
+
+    wd.appendChild(s);
+
+  });
+
+  // Read-along spans
+
+  const rlEl = document.getElementById('rlWord');
+
+  rlEl.innerHTML = '';
+
+  clean.split('').forEach(ch => {
+
+    const s = document.createElement('span');
+
+    s.className = 'rl-letter';
+
+    s.textContent = ch === ' ' ? '\u00A0' : ch;
+
+    rlEl.appendChild(s);
+
+  });
+
+  document.getElementById('readBanner').style.borderColor = color;
+
+  // Speak → then spell
+
+  speak(clean, 0.78, () => setTimeout(() => spellOut(word, color), 180));
+
+  // Tower
+
+  buildTower(n);
+
+  // Cards — solid colors, no gradients
+
+  document.getElementById('evenOdd').textContent = n % 2 === 0 ? 'Even ✨' : 'Odd 🔶';
+
+  document.getElementById('evenOdd').style.color = n % 2 === 0 ? '#26a65b' : '#f7b731';
+
+  document.getElementById('squared').textContent = n * n;
+
+  document.getElementById('squared').style.color = color;
+
+  document.getElementById('doubled').textContent = n * 2;
+
+  document.getElementById('doubled').style.color = color;
+
+  document.getElementById('halved').textContent = n % 2 === 0 ? n/2 : (n/2).toFixed(1);
+
+  document.getElementById('halved').style.color = color;
+
+  const isPrime = n >= 2 && n <= 9999 && (() => { for(let i=2;i<=Math.sqrt(n);i++) if(n%i===0) return false; return true; })();
+
+  document.getElementById('prime').textContent = n < 2 ? 'No' : n > 9999 ? '—' : (isPrime ? 'Yes 🌟' : 'No');
+
+  document.getElementById('prime').style.color = isPrime ? '#f7b731' : '#8892b0';
+
+  if (n <= 200) {
+
+    const facs = []; for(let i=1;i<=n;i++) if(n%i===0) facs.push(i);
+
+    document.getElementById('factors').textContent = facs.join(', ');
+
+  } else {
+
+    document.getElementById('factors').textContent = '—';
+
+  }
+
+  document.getElementById('factors').style.color = color;
+
+  document.querySelectorAll('.card').forEach(c => c.style.borderColor = color);
+
+  // Count track — show the counting sequence for this mode
+
+  document.getElementById('countTo').textContent = n.toLocaleString();
+
+  const track = document.getElementById('countTrack');
+
+  track.innerHTML = '';
+
+  const step = stepSize(n);
+
+  const trackNums = [];
+
+  // Show up to 20 steps ending at current number
+
+  const maxSteps = 20;
+
+  for (let i = Math.max(step, n - (maxSteps-1)*step); i <= n; i += step) {
+
+    trackNums.push(i);
+
+  }
+
+  trackNums.forEach((num, idx) => {
+
+    const box = document.createElement('div');
+
+    box.className = 'count-box';
+
+    box.textContent = num >= 1000 ? (num/1000)+'K' : num;
+
+    box.title = num.toLocaleString();
+
+    track.appendChild(box);
+
+    setTimeout(() => {
+
+      box.classList.add('lit');
+
+      box.style.background = colorFor(num);
+
+    }, idx * 35);
+
+  });
+
+  // Multiplication pills
+
+  const multRow = document.getElementById('multRow');
+
+  multRow.innerHTML = '';
+
+  for (let i = 1; i <= 12; i++) {
+
+    const pill = document.createElement('button');
+
+    pill.className = 'mult-pill';
+
+    pill.textContent = `${n} × ${i} = ${n*i}`;
+
+    pill.addEventListener('mouseenter', () => { pill.style.background = color; pill.style.color = 'white'; });
+
+    pill.addEventListener('mouseleave', () => { pill.style.background = ''; pill.style.color = ''; });
+
+    pill.addEventListener('click', () => {
+
+      window.speechSynthesis.cancel();
+
+      speak(`${n} times ${i} equals ${n*i}`, 0.82);
+
+    });
+
+    multRow.appendChild(pill);
+
+  }
+
+}
+
+// Smart step: 1-100 by 1, 100-1000 by 100, 1000-10000 by 1000
+
+function stepSize(n) {
+
+  if (n >= 1000) return 1000;
+
+  if (n >= 100)  return 100;
+
+  return 1;
+
+}
+
+function goNext() {
+
+  const step = stepSize(current);
+
+  go(current + step);
+
+}
+
+function goPrev() {
+
+  if (current <= 0) return;
+
+  // Step back by the size of where we're going TO
+
+  const target = current - stepSize(current);
+
+  go(Math.max(0, target));
+
+}
+
+function go(n) {
+
+  if (n < 0 || n > 10000) return;
+
+  current = n;
+
+  const el = document.getElementById('bigNum');
+
+  el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse');
+
+  // Update mode badge
+
+  updateModeBadge(n);
+
+  render(n);
+
+}
+
+function updateModeBadge(n) {
+
+  const badge = document.getElementById('modeBadge');
+
+  if (!badge) return;
+
+  if (n > 1000)       { badge.textContent = 'Counting by Thousands 🚀'; badge.style.background = '#8e44ad'; }
+
+  else if (n >= 1000) { badge.textContent = 'Counting by Thousands 🚀'; badge.style.background = '#8e44ad'; }
+
+  else if (n > 100)   { badge.textContent = 'Counting by Hundreds 🌟'; badge.style.background = '#2980b9'; }
+
+  else if (n >= 100)  { badge.textContent = '🎉 One Hundred!'; badge.style.background = '#e63946'; }
+
+  else                { badge.textContent = 'Counting by Ones'; badge.style.background = '#26a65b'; }
+
+}
+
+// ── Event listeners ──
+
+document.getElementById('prevBtn').addEventListener('click', () => goPrev());
+
+document.getElementById('nextBtn').addEventListener('click', () => goNext());
+
+document.getElementById('bigNum').addEventListener('click',  () => go(current));
+
+document.getElementById('soundBtn').addEventListener('click', () => {
+
+  soundOn = !soundOn;
+
+  document.getElementById('soundBtn').textContent = soundOn ? '🔊' : '🔇';
+
+  document.getElementById('soundBtn').classList.toggle('active', soundOn);
+
+  if (!soundOn) window.speechSynthesis.cancel();
+
+});
+
+document.getElementById('slowBtn').addEventListener('click', () => {
+
+  slowMode = !slowMode;
+
+  document.getElementById('slowBtn').classList.toggle('active', slowMode);
+
+});
+
+document.addEventListener('keydown', e => {
+
+  if (e.key==='ArrowRight'||e.key==='ArrowUp')   goNext();
+
+  if (e.key==='ArrowLeft' ||e.key==='ArrowDown')  goPrev();
+
+});
+
+// Unlock audio
+
+document.body.addEventListener('click', () => {
+
+  if (audioCtx && audioCtx.state==='suspended') audioCtx.resume();
+
+  window.speechSynthesis.getVoices();
+
+}, { once: true });
+
+window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+
+// ── Init ──
+
+go(1);
+
+// ── Splash (build blocks dynamically with solid colors) ──
+
+(function buildSplash() {
+
+  const wrap = document.getElementById('splashBlocks');
+
+  const data = [
+
+    { c:'#e63946', h:52, n:'1' },
+
+    { c:'#f4722b', h:104, n:'2' },
+
+    { c:'#f7b731', h:156, n:'3' },
+
+    { c:'#26a65b', h:208, n:'4' },
+
+    { c:'#2980b9', h:260, n:'5' },
+
+  ];
+
+  data.forEach((d, i) => {
+
+    // build a mini column
+
+    const col = document.createElement('div');
+
+    col.style.cssText = `display:flex;flex-direction:column-reverse;gap:4px;`;
+
+    const stacks = i + 1;
+
+    for (let r = 0; r < stacks; r++) {
+
+      const b = document.createElement('div');
+
+      b.className = 'splash-block';
+
+      b.style.background = d.c;
+
+      b.style.height = '48px';
+
+      b.textContent = r === stacks-1 ? d.n : '';
+
+      col.appendChild(b);
+
+    }
+
+    wrap.appendChild(col);
+
+    setTimeout(() => col.querySelectorAll('.splash-block').forEach(b => b.classList.add('pop')), 150 + i*140);
+
+  });
+
+  setTimeout(() => document.getElementById('splashTitle').classList.add('show'), 800);
+
+  setTimeout(() => document.getElementById('splashSub').classList.add('show'), 1050);
+
+  setTimeout(() => {
+
+    document.getElementById('splash').classList.add('hide');
+
+    setTimeout(() => { const s=document.getElementById('splash'); if(s) s.remove(); }, 700);
+
+  }, 2400);
+
+})();
+
+// ── App Icon (solid blocks, no gradient) ──
+
+(function(){
+
+  try {
+
+    const s=512, cv=document.createElement('canvas');
+
+    cv.width=cv.height=s; const c=cv.getContext('2d');
+
+    c.fillStyle='#1a1a2e'; c.fillRect(0,0,s,s);
+
+    [{color:'#e63946',n:'1',x:56,y:56},{color:'#f4722b',n:'2',x:280,y:56},
+
+     {color:'#26a65b',n:'3',x:56,y:280},{color:'#2980b9',n:'4',x:280,y:280}]
+
+    .forEach(b=>{
+
+      c.fillStyle=b.color;
+
+      c.beginPath();
+
+      if(c.roundRect) c.roundRect(b.x,b.y,176,176,24); else c.rect(b.x,b.y,176,176);
+
+      c.fill();
+
+      // bottom shadow edge
+
+      c.fillStyle='rgba(0,0,0,0.2)';
+
+      if(c.roundRect) c.roundRect(b.x,b.y+148,176,28,{lowerLeft:24,lowerRight:24,upperLeft:0,upperRight:0});
+
+      else c.rect(b.x,b.y+148,176,28);
+
+      c.fill();
+
+      c.fillStyle='white'; c.font='bold 100px sans-serif';
+
+      c.textAlign='center'; c.textBaseline='middle';
+
+      c.fillText(b.n,b.x+88,b.y+84);
+
+    });
+
+    const url=cv.toDataURL('image/png');
+
+    document.getElementById('appIcon').href=url;
+
+    const m={name:'Number World',short_name:'Numbers',start_url:'.',display:'standalone',
+
+      background_color:'#1a1a2e',theme_color:'#1a1a2e',
+
+      icons:[{src:url,sizes:'512x512',type:'image/png'}]};
+
+    const bl=new Blob([JSON.stringify(m)],{type:'application/json'});
+
+    const ml=document.createElement('link'); ml.rel='manifest'; ml.href=URL.createObjectURL(bl);
+
+    document.head.appendChild(ml);
+
+  }catch(e){}
+
+})();
+</script>
+</body>
+</html>
+ 
