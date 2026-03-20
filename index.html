@@ -1,1 +1,14 @@
-<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <link rel="stylesheet" href="styles.css"> <!-- External stylesheet -->\n    <title>Number World</title>\n    <style>\n        :root {\n            --main-bg-color: #f0f0f0;\n            --main-text-color: #333;\n        }\n        /* Other styles can be added here */\n    </style>\n</head>\n<body>\n    <header>\n        <h1 aria-label="Welcome to Number World">Number World</h1>\n    </header>\n    <main>\n        <section>\n            <h2>Prime Checker</h2>\n            <input type="number" id="numberInput" aria-label="Enter a number to check if it's prime">\n            <button onclick="checkPrime()">Check</button>\n        </section>\n        <section>\n            <h2>Factor Calculator</h2>\n            <input type="number" id="factorInput" aria-label="Enter a number to find its factors">\n            <button onclick="calculateFactors()">Calculate</button>\n        </section>\n    </main>\n    <script>\n        const MAX_PRIME_CHECK = 100; // Named constant\n        function checkPrime() {\n            const number = parseInt(document.getElementById('numberInput').value);\n            if (number <= 1) return; // simple validation\n            let isPrime = true;\n            for (let i = 2; i <= Math.sqrt(number); i++) {\n                if (number % i === 0) {\n                    isPrime = false;\n                    break;\n                }\n            }\n            alert(isPrime ? `${number} is a prime number!` : `${number} is not a prime number.`);\n        }\n        function calculateFactors() {\n            const number = parseInt(document.getElementById('factorInput').value);\n            if (number <= 0) return; // simple validation\n            const factors = [];\n            for (let i = 1; i <= number; i++) {\n                if (number % i === 0) {\n                    factors.push(i);\n                }\n            }\n            alert(`Factors of ${number}: ${factors.join(', ')}`);\n        }\n    </script>\n    <style>\n        @media (max-width: 600px) {\n            body {\n                font-size: 14px;\n            }\n        }\n    </style>\n</body>\n</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Number World</title>
+</head>
+<body>
+    <h1>Welcome to Number World!</h1>
+    <div id="numbers"></div>
+    <script src="script.js"></script>
+</body>
+</html>
