@@ -9,37 +9,38 @@
 <meta name="apple-mobile-web-app-title" content="Number World">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#1a1a2e">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; base-uri 'self'; frame-ancestors 'none'">
 <link id="appIcon" rel="apple-touch-icon" href="">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
 <style>
 
 /* ── RESET & BASE ── */
 
-- { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
 
-  –bg:    #1a1a2e;
+  --bg:    #1a1a2e;
 
-  –card:  #16213e;
+  --card:  #16213e;
 
-  –card2: #0f3460;
+  --card2: #0f3460;
 
-  –text:  #ffffff;
+  --text:  #ffffff;
 
-  –soft:  #8892b0;
+  --soft:  #8892b0;
 
-  –block-size: 52px;
+  --block-size: 52px;
 
   }
 
   body {
 
-  font-family: ‘Nunito’, sans-serif;
+  font-family: 'Nunito', sans-serif;
 
-  background: var(–bg);
+  background: var(--bg);
 
-  color: var(–text);
+  color: var(--text);
 
   min-height: 100vh;
 
@@ -73,7 +74,7 @@ width: 52px; border-radius: 10px;
 
 display: flex; align-items: center; justify-content: center;
 
-font-family: ‘Baloo 2’, cursive; font-size: 1.5rem; font-weight: 800;
+font-family: 'Baloo 2', cursive; font-size: 1.5rem; font-weight: 800;
 
 color: white; opacity: 0; transform: translateY(30px) scale(0.7);
 
@@ -87,7 +88,7 @@ border-bottom: 4px solid rgba(0,0,0,0.25);
 
 .splash-title {
 
-font-family: ‘Baloo 2’, cursive; font-size: 2.6rem; font-weight: 800;
+font-family: 'Baloo 2', cursive; font-size: 2.6rem; font-weight: 800;
 
 color: #ffffff;
 
@@ -115,7 +116,7 @@ display: flex; gap: 8px; z-index: 200;
 
 .ctrl-btn {
 
-background: var(–card); border: none; color: var(–text);
+background: var(--card); border: none; color: var(--text);
 
 border-radius: 50%; width: 46px; height: 46px; font-size: 1.3rem;
 
@@ -127,7 +128,7 @@ border: 2px solid transparent;
 
 }
 
-.ctrl-btn:hover { background: var(–card2); }
+.ctrl-btn:hover { background: var(--card2); }
 
 .ctrl-btn.active { border-color: #FFD700; }
 
@@ -135,7 +136,7 @@ border: 2px solid transparent;
 
 h1 {
 
-font-family: ‘Baloo 2’, cursive;
+font-family: 'Baloo 2', cursive;
 
 font-size: clamp(2rem, 6vw, 3.2rem);
 
@@ -149,7 +150,7 @@ text-align: center;
 
 }
 
-.subtitle { color: var(–soft); font-size: 1rem; margin-bottom: 28px; text-align: center; }
+.subtitle { color: var(--soft); font-size: 1rem; margin-bottom: 28px; text-align: center; }
 
 /* ── PICKER ── */
 
@@ -159,23 +160,23 @@ text-align: center;
 
 width: 68px; height: 68px; border-radius: 50%; border: none;
 
-background: var(–card); color: var(–text); font-size: 2rem;
+background: var(--card); color: var(--text); font-size: 2rem;
 
 cursor: pointer; transition: transform 0.12s, background 0.2s;
 
 display: flex; align-items: center; justify-content: center;
 
-border: 2px solid var(–card2);
+border: 2px solid var(--card2);
 
 }
 
-.arrow-btn:hover { background: var(–card2); transform: scale(1.1); }
+.arrow-btn:hover { background: var(--card2); transform: scale(1.1); }
 
 .arrow-btn:active { transform: scale(0.92); }
 
 .big-number {
 
-font-family: ‘Baloo 2’, cursive;
+font-family: 'Baloo 2', cursive;
 
 font-size: clamp(3rem, 14vw, 9rem);
 
@@ -199,7 +200,7 @@ margin-bottom: 24px; min-height: 58px; align-items: center;
 
 .word-letter {
 
-font-family: ‘Baloo 2’, cursive;
+font-family: 'Baloo 2', cursive;
 
 font-size: clamp(2rem, 7vw, 3.8rem);
 
@@ -229,11 +230,11 @@ to { opacity: 0.3; transform: scale(0.88) translateY(0); }
 
 width: 100%; max-width: 640px;
 
-background: var(–card); border-radius: 16px;
+background: var(--card); border-radius: 16px;
 
 padding: 14px 20px; margin-bottom: 28px;
 
-text-align: center; border: 2px solid var(–card2);
+text-align: center; border: 2px solid var(--card2);
 
 transition: border-color 0.3s;
 
@@ -243,13 +244,13 @@ transition: border-color 0.3s;
 
 font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;
 
-color: var(–soft); margin-bottom: 8px;
+color: var(--soft); margin-bottom: 8px;
 
 }
 
 .read-banner .rl-word {
 
-font-family: ‘Baloo 2’, cursive;
+font-family: 'Baloo 2', cursive;
 
 font-size: clamp(1.8rem, 6vw, 3rem);
 
@@ -267,11 +268,11 @@ font-weight: 800; letter-spacing: 6px;
 
 width: 100%; max-width: 640px;
 
-background: var(–card); border-radius: 16px;
+background: var(--card); border-radius: 16px;
 
 padding: 20px; margin-bottom: 28px;
 
-border: 2px solid var(–card2);
+border: 2px solid var(--card2);
 
 }
 
@@ -279,7 +280,7 @@ border: 2px solid var(–card2);
 
 font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;
 
-color: var(–soft); margin-bottom: 16px; text-align: center;
+color: var(--soft); margin-bottom: 16px; text-align: center;
 
 }
 
@@ -315,15 +316,15 @@ gap: 4px;
 
 .nb-block {
 
-width: var(–block-size);
+width: var(--block-size);
 
-height: var(–block-size);
+height: var(--block-size);
 
 border-radius: 10px;
 
 display: flex; align-items: center; justify-content: center;
 
-font-family: ‘Baloo 2’, cursive;
+font-family: 'Baloo 2', cursive;
 
 font-size: 1.2rem; font-weight: 800;
 
@@ -361,7 +362,7 @@ transform: translateY(0) scale(1);
 
 .nb-block.has-eyes::after {
 
-content: ‘◉ ◉’;
+content: '◉ ◉';
 
 position: absolute;
 
@@ -381,7 +382,7 @@ pointer-events: none;
 
 .nb-overflow {
 
-color: var(–soft); font-size: 0.9rem; font-weight: 700;
+color: var(--soft); font-size: 0.9rem; font-weight: 700;
 
 align-self: center; padding: 0 8px;
 
@@ -399,9 +400,9 @@ gap: 12px; width: 100%; max-width: 640px; margin-bottom: 28px;
 
 .card {
 
-background: var(–card); border-radius: 16px; padding: 16px 12px;
+background: var(--card); border-radius: 16px; padding: 16px 12px;
 
-text-align: center; border: 2px solid var(–card2);
+text-align: center; border: 2px solid var(--card2);
 
 transition: border-color 0.3s, transform 0.2s;
 
@@ -413,21 +414,21 @@ transition: border-color 0.3s, transform 0.2s;
 
 font-size: 0.68rem; text-transform: uppercase; letter-spacing: 2px;
 
-color: var(–soft); margin-bottom: 6px;
+color: var(--soft); margin-bottom: 6px;
 
 }
 
-.card .value { font-family: ‘Baloo 2’, cursive; font-size: 1.55rem; font-weight: 700; }
+.card .value { font-family: 'Baloo 2', cursive; font-size: 1.55rem; font-weight: 700; }
 
 /* ── COUNT BAR ── */
 
 .count-bar-wrap {
 
-width: 100%; max-width: 640px; background: var(–card);
+width: 100%; max-width: 640px; background: var(--card);
 
 border-radius: 14px; padding: 18px 20px; margin-bottom: 28px;
 
-border: 2px solid var(–card2);
+border: 2px solid var(--card2);
 
 }
 
@@ -435,7 +436,7 @@ border: 2px solid var(–card2);
 
 font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;
 
-color: var(–soft); margin-bottom: 12px;
+color: var(--soft); margin-bottom: 12px;
 
 }
 
@@ -449,7 +450,7 @@ display: flex; align-items: center; justify-content: center;
 
 font-weight: 700; font-size: 0.8rem;
 
-background: #0f3460; color: var(–soft);
+background: #0f3460; color: var(--soft);
 
 transition: background 0.2s, color 0.2s, transform 0.15s;
 
@@ -463,11 +464,11 @@ border-bottom: 3px solid rgba(0,0,0,0.2);
 
 .mult-strip {
 
-width: 100%; max-width: 640px; background: var(–card);
+width: 100%; max-width: 640px; background: var(--card);
 
 border-radius: 14px; padding: 18px 20px; margin-bottom: 20px;
 
-border: 2px solid var(–card2);
+border: 2px solid var(--card2);
 
 }
 
@@ -475,7 +476,7 @@ border: 2px solid var(–card2);
 
 font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;
 
-color: var(–soft); margin-bottom: 12px;
+color: var(--soft); margin-bottom: 12px;
 
 }
 
@@ -485,7 +486,7 @@ color: var(–soft); margin-bottom: 12px;
 
 padding: 7px 14px; border-radius: 50px; font-weight: 700; font-size: 0.88rem;
 
-background: var(–card2); color: var(–soft);
+background: var(--card2); color: var(--soft);
 
 transition: all 0.2s; cursor: pointer; border: none;
 
@@ -506,6 +507,73 @@ transition: all 0.2s; cursor: pointer; border: none;
 }
 
 .pulse { animation: bigpulse 0.32s ease-out; }
+
+
+/* ── MODALS & SETTINGS UI ── */
+.modal { position: fixed; inset: 0; display: none; z-index: 5000; }
+.modal.show { display: block; }
+.modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.55); backdrop-filter: blur(4px); }
+.modal-card {
+  position: relative; width: min(720px, calc(100% - 28px));
+  margin: 64px auto 0; background: var(--card);
+  border: 2px solid var(--card2); border-radius: 18px;
+  box-shadow: 0 18px 60px rgba(0,0,0,0.5); overflow: hidden;
+}
+.modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; background: rgba(0,0,0,0.12);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.modal-title { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.1rem; letter-spacing: 1px; }
+.modal-x {
+  width: 40px; height: 40px; border-radius: 12px;
+  border: 2px solid transparent; background: var(--card2);
+  color: white; cursor: pointer; font-size: 1.0rem;
+}
+.modal-x:hover { filter: brightness(1.05); }
+.modal-body { padding: 14px 16px 18px; }
+
+.field { margin-bottom: 14px; }
+.field-label {
+  display: block; font-size: 0.75rem; color: var(--soft);
+  letter-spacing: 1.6px; text-transform: uppercase; margin-bottom: 8px;
+}
+.field-row { display: flex; gap: 8px; align-items: center; }
+.field-input, .field-select {
+  flex: 1; background: rgba(255,255,255,0.06);
+  border: 2px solid rgba(255,255,255,0.12);
+  border-radius: 12px; padding: 10px 12px; color: white;
+  outline: none; font-weight: 700;
+}
+.field-input:focus, .field-select:focus { border-color: rgba(255,215,0,0.7); }
+.field-btn {
+  background: #26a65b; border: none; color: white;
+  border-radius: 12px; padding: 10px 14px; font-weight: 800;
+  cursor: pointer; white-space: nowrap;
+}
+.field-btn:hover { filter: brightness(1.05); }
+.field-slider { width: 100%; margin-top: 10px; }
+.field-hint { font-size: 0.85rem; color: rgba(255,255,255,0.55); margin-top: 8px; }
+
+.quiz-meta { display: flex; gap: 14px; flex-wrap: wrap; font-weight: 800; color: rgba(255,255,255,0.8); margin-bottom: 12px; }
+.quiz-q { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.4rem; margin: 8px 0 14px; line-height: 1.2; }
+.quiz-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.quiz-choice {
+  padding: 12px 12px; border-radius: 14px;
+  border: 2px solid rgba(255,255,255,0.12);
+  background: rgba(0,0,0,0.15); color: white;
+  font-weight: 900; cursor: pointer; text-align: left;
+}
+.quiz-choice:hover { border-color: rgba(255,215,0,0.7); }
+.quiz-choice.correct { border-color: #26a65b; background: rgba(38,166,91,0.22); }
+.quiz-choice.wrong { border-color: #e63946; background: rgba(230,57,70,0.22); }
+.quiz-msg { min-height: 24px; margin-top: 10px; font-weight: 800; color: rgba(255,255,255,0.8); }
+.quiz-actions { display: flex; gap: 10px; margin-top: 14px; justify-content: flex-end; flex-wrap: wrap; }
+
+@media (max-width: 520px) {
+  .quiz-choices { grid-template-columns: 1fr; }
+  .modal-card { margin-top: 54px; }
+}
 </style>
 </head>
 <body>
@@ -517,8 +585,10 @@ transition: all 0.2s; cursor: pointer; border: none;
 </div>
 <!-- TOP CONTROLS -->
 <div class="top-controls">
-<button class="ctrl-btn active" id="soundBtn" title="Toggle voice">🔊</button>
-<button class="ctrl-btn"        id="slowBtn"  title="Slow spelling">🐢</button>
+  <button class="ctrl-btn active" id="soundBtn" title="Toggle voice" aria-label="Toggle voice">🔊</button>
+  <button class="ctrl-btn" id="slowBtn" title="Slow spelling" aria-label="Toggle slow spelling">🐢</button>
+  <button class="ctrl-btn" id="quizBtn" title="Quiz mode" aria-label="Open quiz mode">🎲</button>
+  <button class="ctrl-btn" id="settingsBtn" title="Settings" aria-label="Open settings">⚙️</button>
 </div>
 <!-- HEADER -->
 <h1>✨ Number World</h1>
@@ -571,7 +641,138 @@ transition: all 0.2s; cursor: pointer; border: none;
 <h2>Multiplication table</h2>
 <div class="mult-row" id="multRow"></div>
 </div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal" id="settingsModal" aria-hidden="true">
+  <div class="modal-backdrop" data-close="settings"></div>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-label="Settings">
+    <div class="modal-head">
+      <div class="modal-title">⚙️ Settings</div>
+      <button class="modal-x" type="button" data-close="settings" aria-label="Close settings">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label class="field-label" for="jumpInput">Jump to number (0–10,000)</label>
+        <div class="field-row">
+          <input id="jumpInput" class="field-input" type="number" min="0" max="10000" inputmode="numeric" />
+          <button id="jumpGo" class="field-btn" type="button">Go</button>
+        </div>
+        <input id="jumpSlider" class="field-slider" type="range" min="0" max="10000" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="stepSelect">Step size</label>
+        <select id="stepSelect" class="field-select">
+          <option value="auto">Auto (1/100/1000)</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="500">500</option>
+          <option value="1000">1000</option>
+        </select>
+        <div class="field-hint">Controls Next/Prev and the count track.</div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="quizMax">Quiz difficulty (max number)</label>
+        <div class="field-row">
+          <input id="quizMax" class="field-input" type="number" min="10" max="10000" step="10" />
+          <button id="quizStart" class="field-btn" type="button">Start quiz</button>
+        </div>
+        <div class="field-hint">Quizzes pick numbers from 0 up to this max.</div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Remember my settings</label>
+        <div class="field-row" style="gap:10px; flex-wrap:wrap;">
+          <button id="resetPrefs" class="field-btn" type="button" style="background:#c0392b;">Reset</button>
+          <span class="field-hint">Sound, slow mode, step size, last number.</span>
+        </div>
+      </div>
+      
+      <div class="field">
+        <label class="field-label">Quick actions</label>
+        <div class="field-row">
+          <button
+            id="resetZeroBtn"
+            class="field-btn"
+            type="button"
+            style="font-size:1.1rem; padding:14px 18px;"
+          >
+            🔄 Back to ZERO
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- QUIZ MODAL -->
+<div class="modal" id="quizModal" aria-hidden="true">
+  <div class="modal-backdrop" data-close="quiz"></div>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-label="Quiz">
+    <div class="modal-head">
+      <div class="modal-title">🎲 Quiz</div>
+      <button class="modal-x" type="button" data-close="quiz" aria-label="Close quiz">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="quiz-meta">
+        <div>Score: <span id="quizScore">0</span></div>
+        <div>Streak: <span id="quizStreak">0</span></div>
+        <div>Max: <span id="quizMaxLabel">100</span></div>
+      </div>
+
+      <div class="quiz-q" id="quizQuestion">—</div>
+      <div class="quiz-choices" id="quizChoices"></div>
+      <div class="quiz-msg" id="quizMsg"></div>
+
+      <div class="quiz-actions">
+        <button id="quizNext" class="field-btn" type="button">Next</button>
+        <button id="quizReveal" class="field-btn" type="button" style="background:#2980b9;">Reveal</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
+'use strict';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Persistence
+// ─────────────────────────────────────────────────────────────────────────────
+const PREF_KEY = "numberWorld.v1";
+
+function loadPrefs() {
+  try {
+    const raw = localStorage.getItem(PREF_KEY);
+    if (!raw) return null;
+    const p = JSON.parse(raw);
+    return (p && typeof p === "object") ? p : null;
+  } catch (_) {
+    return null;
+  }
+}
+
+function savePrefs(patch) {
+  try {
+    const cur = loadPrefs() || {};
+    const next = Object.assign({}, cur, patch);
+    localStorage.setItem(PREF_KEY, JSON.stringify(next));
+  } catch (_) {
+    // ignore
+  }
+}
+
+function resetPrefs() {
+  try { localStorage.removeItem(PREF_KEY); } catch (_) {}
+}
+
 
 // ── Number names 0–100 ──
 
@@ -687,11 +888,13 @@ function colorFor(n) {
 
 // ── State ──
 
-let current  = 1;
-
-let soundOn  = true;
-
+let current = 1;
+let soundOn = true;
 let slowMode = false;
+let stepMode = "auto"; // "auto" or numeric string like "5"
+let quizMax = 100;
+
+let quizState = { active: false, score: 0, streak: 0, answer: null, qtype: "word->num" };
 
 let audioCtx = null;
 
@@ -1031,7 +1234,7 @@ function render(n) {
 
   track.innerHTML = '';
 
-  const step = stepSize(n);
+  const step = stepSizeFor(n);
 
   const trackNums = [];
 
@@ -1101,19 +1304,23 @@ function render(n) {
 
 // Smart step: 1-100 by 1, 100-1000 by 100, 1000-10000 by 1000
 
-function stepSize(n) {
-
+function autoStepSize(n) {
   if (n >= 1000) return 1000;
-
   if (n >= 100)  return 100;
-
   return 1;
+}
 
+function stepSizeFor(n) {
+  if (stepMode !== "auto") {
+    const v = Number(stepMode);
+    return Number.isFinite(v) && v > 0 ? v : autoStepSize(n);
+  }
+  return autoStepSize(n);
 }
 
 function goNext() {
 
-  const step = stepSize(current);
+  const step = stepSizeFor(current);
 
   go(current + step);
 
@@ -1125,7 +1332,8 @@ function goPrev() {
 
   // Step back by the size of where we're going TO
 
-  const target = current - stepSize(current);
+  const nextDown = Math.max(0, current - 1);
+  const target = current - stepSizeFor(nextDown);
 
   go(Math.max(0, target));
 
@@ -1147,6 +1355,8 @@ function go(n) {
 
   render(n);
 
+  savePrefs({ current });
+
 }
 
 function updateModeBadge(n) {
@@ -1167,6 +1377,271 @@ function updateModeBadge(n) {
 
 }
 
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Modal helpers + Settings + Quiz
+// ─────────────────────────────────────────────────────────────────────────────
+const modals = {
+  settings: document.getElementById('settingsModal'),
+  quiz: document.getElementById('quizModal'),
+};
+
+function openModal(name) {
+  const m = modals[name];
+  if (!m) return;
+  m.classList.add('show');
+  m.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(name) {
+  const m = modals[name];
+  if (!m) return;
+  m.classList.remove('show');
+  m.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+document.querySelectorAll('[data-close]').forEach(el => {
+  el.addEventListener('click', () => {
+    const target = el.getAttribute('data-close');
+    if (target === 'settings') closeModal('settings');
+    if (target === 'quiz') closeModal('quiz');
+  });
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeModal('settings');
+    closeModal('quiz');
+  }
+});
+
+const settingsEls = {
+  jumpInput: document.getElementById('jumpInput'),
+  jumpSlider: document.getElementById('jumpSlider'),
+  jumpGo: document.getElementById('jumpGo'),
+  stepSelect: document.getElementById('stepSelect'),
+  quizMax: document.getElementById('quizMax'),
+  quizStart: document.getElementById('quizStart'),
+  resetPrefs: document.getElementById('resetPrefs'),
+};
+
+function clampInt(v, min, max, fallback) {
+  const n = Number(v);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.max(min, Math.min(max, Math.trunc(n)));
+}
+
+function syncSettingsUI() {
+  if (!settingsEls.jumpInput) return;
+  settingsEls.jumpInput.value = String(current);
+  settingsEls.jumpSlider.value = String(current);
+  settingsEls.stepSelect.value = String(stepMode);
+  settingsEls.quizMax.value = String(quizMax);
+  const qMaxLabel = document.getElementById('quizMaxLabel');
+  if (qMaxLabel) qMaxLabel.textContent = String(quizMax);
+}
+
+function applyStepMode(val) {
+  stepMode = (val === 'auto') ? 'auto' : String(clampInt(val, 1, 1000, 1));
+  savePrefs({ stepMode });
+  syncSettingsUI();
+  render(current);
+}
+
+settingsEls.jumpGo.addEventListener('click', () => {
+  const n = clampInt(settingsEls.jumpInput.value, 0, 10000, current);
+  go(n);
+  syncSettingsUI();
+});
+
+settingsEls.jumpInput.addEventListener('change', () => {
+  const n = clampInt(settingsEls.jumpInput.value, 0, 10000, current);
+  go(n);
+  syncSettingsUI();
+});
+
+settingsEls.jumpSlider.addEventListener('input', () => {
+  const n = clampInt(settingsEls.jumpSlider.value, 0, 10000, current);
+  settingsEls.jumpInput.value = String(n);
+});
+
+settingsEls.jumpSlider.addEventListener('change', () => {
+  const n = clampInt(settingsEls.jumpSlider.value, 0, 10000, current);
+  go(n);
+  syncSettingsUI();
+});
+
+settingsEls.stepSelect.addEventListener('change', () => applyStepMode(settingsEls.stepSelect.value));
+
+settingsEls.quizMax.addEventListener('change', () => {
+  quizMax = clampInt(settingsEls.quizMax.value, 10, 10000, quizMax);
+  savePrefs({ quizMax });
+  syncSettingsUI();
+});
+
+settingsEls.quizStart.addEventListener('click', () => {
+  closeModal('settings');
+  startQuiz();
+});
+
+settingsEls.resetPrefs.addEventListener('click', () => {
+  resetPrefs();
+  soundOn = true; slowMode = false; stepMode = 'auto'; quizMax = 100; current = 1;
+  savePrefs({ soundOn, slowMode, stepMode, quizMax, current });
+  const sb = document.getElementById('soundBtn');
+  const sl = document.getElementById('slowBtn');
+  if (sb) { sb.textContent = '🔊'; sb.classList.add('active'); }
+  if (sl) sl.classList.remove('active');
+  (function initFromPrefs(){
+  const p = loadPrefs();
+  if (!p) return;
+  if (typeof p.soundOn === 'boolean') soundOn = p.soundOn;
+  if (typeof p.slowMode === 'boolean') slowMode = p.slowMode;
+  if (typeof p.stepMode === 'string') stepMode = p.stepMode;
+  if (typeof p.quizMax === 'number') quizMax = clampInt(p.quizMax, 10, 10000, 100);
+  if (typeof p.current === 'number') current = clampInt(p.current, 0, 10000, 1);
+
+  const sb = document.getElementById('soundBtn');
+  const sl = document.getElementById('slowBtn');
+  if (sb) { sb.textContent = soundOn ? '🔊' : '🔇'; sb.classList.toggle('active', soundOn); }
+  if (sl) sl.classList.toggle('active', slowMode);
+})();
+
+go(current);
+  syncSettingsUI();
+});
+
+const quizEls = {
+  score: document.getElementById('quizScore'),
+  streak: document.getElementById('quizStreak'),
+  question: document.getElementById('quizQuestion'),
+  choices: document.getElementById('quizChoices'),
+  msg: document.getElementById('quizMsg'),
+  next: document.getElementById('quizNext'),
+  reveal: document.getElementById('quizReveal'),
+};
+
+function randInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function formatChoiceText(qtype, n) {
+  if (qtype === 'word->num') return String(n);
+  return numberToWords(n).replace(/-/g, ' ');
+}
+
+function buildQuestion() {
+  quizEls.msg.textContent = '';
+  quizEls.choices.textContent = '';
+
+  const max = clampInt(quizMax, 10, 10000, 100);
+  const answer = randInt(0, max);
+  const qtype = (Math.random() < 0.5) ? 'word->num' : 'num->word';
+
+  quizState.answer = answer;
+  quizState.qtype = qtype;
+
+  if (qtype === 'word->num') {
+    const word = numberToWords(answer).replace(/-/g, ' ');
+    quizEls.question.textContent = `Which number is “${word}”?`;
+    if (soundOn) speak(word, 0.82);
+  } else {
+    quizEls.question.textContent = `What is the word for ${answer}?`;
+    if (soundOn) speak(String(answer), 0.86);
+  }
+
+  const opts = new Set([answer]);
+  while (opts.size < 4) {
+    const delta = randInt(-12, 12);
+    const cand = Math.max(0, Math.min(max, answer + delta));
+    opts.add(cand);
+  }
+
+  const optionList = shuffle(Array.from(opts));
+  optionList.forEach(n => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'quiz-choice';
+    btn.textContent = formatChoiceText(qtype, n);
+    btn.addEventListener('click', () => handleAnswer(n, btn));
+    quizEls.choices.appendChild(btn);
+  });
+
+  const qMaxLabel = document.getElementById('quizMaxLabel');
+  if (qMaxLabel) qMaxLabel.textContent = String(max);
+}
+
+function handleAnswer(n, btn) {
+  if (!quizState.active) return;
+  const answer = quizState.answer;
+
+  const all = quizEls.choices.querySelectorAll('.quiz-choice');
+  all.forEach(b => b.disabled = true);
+
+  if (n === answer) {
+    quizState.score += 1;
+    quizState.streak += 1;
+    btn.classList.add('correct');
+    quizEls.msg.textContent = '✅ Correct!';
+    if (soundOn) speak('Correct', 0.9);
+  } else {
+    quizState.streak = 0;
+    btn.classList.add('wrong');
+    quizEls.msg.textContent = `❌ Not quite — the answer is ${formatChoiceText(quizState.qtype, answer)}.`;
+    all.forEach(b => {
+      if (b.textContent === formatChoiceText(quizState.qtype, answer)) b.classList.add('correct');
+    });
+    if (soundOn) speak('Try again', 0.9);
+  }
+
+  quizEls.score.textContent = String(quizState.score);
+  quizEls.streak.textContent = String(quizState.streak);
+
+  go(answer);
+  syncSettingsUI();
+
+  quizState.active = false;
+}
+
+function startQuiz() {
+  quizState.score = 0;
+  quizState.streak = 0;
+  quizState.active = true;
+  quizEls.score.textContent = '0';
+  quizEls.streak.textContent = '0';
+  buildQuestion();
+  openModal('quiz');
+}
+
+function nextQuiz() {
+  quizState.active = true;
+  buildQuestion();
+}
+
+quizEls.next.addEventListener('click', nextQuiz);
+quizEls.reveal.addEventListener('click', () => {
+  const answer = quizState.answer;
+  quizEls.msg.textContent = `👀 Answer: ${formatChoiceText(quizState.qtype, answer)}`;
+  if (soundOn) {
+    const aSpeak = (quizState.qtype === 'word->num') ? String(answer) : numberToWords(answer).replace(/-/g,' ');
+    speak('The answer is ' + aSpeak, 0.82);
+  }
+  go(answer);
+  syncSettingsUI();
+  quizState.active = false;
+});
+
+
 // ── Event listeners ──
 
 document.getElementById('prevBtn').addEventListener('click', () => goPrev());
@@ -1184,6 +1659,7 @@ document.getElementById('soundBtn').addEventListener('click', () => {
   document.getElementById('soundBtn').classList.toggle('active', soundOn);
 
   if (!soundOn) window.speechSynthesis.cancel();
+  savePrefs({ soundOn });
 
 });
 
@@ -1192,6 +1668,7 @@ document.getElementById('slowBtn').addEventListener('click', () => {
   slowMode = !slowMode;
 
   document.getElementById('slowBtn').classList.toggle('active', slowMode);
+  savePrefs({ slowMode });
 
 });
 
@@ -1217,7 +1694,22 @@ window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices(
 
 // ── Init ──
 
-go(1);
+(function initFromPrefs(){
+  const p = loadPrefs();
+  if (!p) return;
+  if (typeof p.soundOn === 'boolean') soundOn = p.soundOn;
+  if (typeof p.slowMode === 'boolean') slowMode = p.slowMode;
+  if (typeof p.stepMode === 'string') stepMode = p.stepMode;
+  if (typeof p.quizMax === 'number') quizMax = clampInt(p.quizMax, 10, 10000, 100);
+  if (typeof p.current === 'number') current = clampInt(p.current, 0, 10000, 1);
+
+  const sb = document.getElementById('soundBtn');
+  const sl = document.getElementById('slowBtn');
+  if (sb) { sb.textContent = soundOn ? '🔊' : '🔇'; sb.classList.toggle('active', soundOn); }
+  if (sl) sl.classList.toggle('active', slowMode);
+})();
+
+go(current);
 
 // ── Splash (build blocks dynamically with solid colors) ──
 
@@ -1346,6 +1838,35 @@ go(1);
     document.head.appendChild(ml);
 
   }catch(e){}
+
+const settingsBtn = document.getElementById('settingsBtn');
+const quizBtn = document.getElementById('quizBtn');
+
+if (settingsBtn) {
+  settingsBtn.addEventListener('click', () => {
+    syncSettingsUI();
+    openModal('settings');
+  });
+}
+// Reset to ZERO (K2-friendly)
+const resetZeroBtn = document.getElementById('resetZeroBtn');
+
+if (resetZeroBtn) {
+  resetZeroBtn.addEventListener('click', () => {
+    go(0);                    // go to zero
+    syncSettingsUI();         // keep inputs/sliders in sync
+    savePrefs({ current: 0 }); // remember on reload
+    closeModal('settings');
+  });
+}
+
+if (quizBtn) {
+  quizBtn.addEventListener('click', () => {
+    syncSettingsUI();
+    startQuiz();
+  });
+}
+ 
 
 })();
 </script>
