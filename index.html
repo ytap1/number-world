@@ -444,11 +444,11 @@ color: var(--soft); margin-bottom: 12px;
 
 .count-box {
 
-width: 34px; height: 34px; border-radius: 8px;
+width: 52px; height: 52px; border-radius: 10px;
 
 display: flex; align-items: center; justify-content: center;
 
-font-weight: 700; font-size: 0.8rem;
+font-weight: 700; font-size: 0.88rem;
 
 background: #0f3460; color: var(--soft);
 
@@ -456,7 +456,11 @@ transition: background 0.2s, color 0.2s, transform 0.15s;
 
 border-bottom: 3px solid rgba(0,0,0,0.2);
 
+cursor: pointer; user-select: none;
+
 }
+
+.count-box:active { transform: scale(0.92); }
 
 .count-box.lit { color: white; transform: scale(1.12); }
 
@@ -559,10 +563,12 @@ transition: all 0.2s; cursor: pointer; border: none;
 .quiz-q { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.4rem; margin: 8px 0 14px; line-height: 1.2; }
 .quiz-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .quiz-choice {
-  padding: 12px 12px; border-radius: 14px;
+  padding: 18px 16px; border-radius: 16px;
   border: 2px solid rgba(255,255,255,0.12);
   background: rgba(0,0,0,0.15); color: white;
-  font-weight: 900; cursor: pointer; text-align: left;
+  font-weight: 900; cursor: pointer; text-align: center;
+  font-size: 1.15rem; min-height: 68px;
+  font-family: 'Baloo 2', cursive;
 }
 .quiz-choice:hover { border-color: rgba(255,215,0,0.7); }
 .quiz-choice.correct { border-color: #26a65b; background: rgba(38,166,91,0.22); }
@@ -574,6 +580,121 @@ transition: all 0.2s; cursor: pointer; border: none;
   .quiz-choices { grid-template-columns: 1fr; }
   .modal-card { margin-top: 54px; }
 }
+
+/* ── STAR REWARD BADGE ── */
+.stars-badge {
+  position: fixed; top: 14px; left: 14px; z-index: 200;
+  background: #FFD700; color: #1a1a2e;
+  border-radius: 50px; padding: 8px 16px;
+  font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.05rem;
+  display: flex; align-items: center; gap: 5px;
+  box-shadow: 0 2px 12px rgba(255,215,0,0.45);
+  transition: transform 0.2s;
+  user-select: none;
+}
+@keyframes starBump {
+  0%   { transform: scale(1);    }
+  40%  { transform: scale(1.45); }
+  100% { transform: scale(1);    }
+}
+.stars-badge.bump { animation: starBump 0.38s ease; }
+
+/* ── CONFETTI PIECES ── */
+.confetti-piece {
+  position: fixed; width: 11px; height: 11px; border-radius: 3px;
+  pointer-events: none; z-index: 9998;
+  animation: confettiFall var(--cdur,1.6s) ease-in forwards;
+}
+@keyframes confettiFall {
+  0%   { transform: translateY(-20px) rotate(0deg);   opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+/* ── MILESTONE OVERLAY ── */
+#milestoneOverlay {
+  position: fixed; inset: 0; z-index: 8000;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  pointer-events: none; opacity: 0;
+  transition: opacity 0.25s;
+}
+#milestoneOverlay.show { opacity: 1; pointer-events: auto; }
+.milestone-bubble {
+  background: #fff; border-radius: 28px;
+  padding: 28px 48px; text-align: center;
+  box-shadow: 0 12px 60px rgba(0,0,0,0.35);
+  transform: scale(0.4);
+  transition: transform 0.42s cubic-bezier(0.175,0.885,0.32,1.275);
+}
+#milestoneOverlay.show .milestone-bubble { transform: scale(1); }
+.milestone-num {
+  font-family: 'Baloo 2', cursive; font-weight: 800;
+  font-size: 5.5rem; line-height: 1;
+}
+.milestone-msg {
+  font-family: 'Baloo 2', cursive; font-weight: 700;
+  font-size: 1.9rem; color: #333; margin-top: 4px;
+}
+.milestone-close {
+  margin-top: 18px; padding: 14px 36px;
+  border-radius: 50px; border: none;
+  font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.2rem;
+  cursor: pointer; color: white;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.22);
+  transition: transform 0.12s;
+}
+.milestone-close:active { transform: scale(0.94); }
+
+/* ── COUNTING TAP GAME ── */
+.tap-game {
+  width: 100%; max-width: 640px;
+  background: var(--card); border-radius: 16px;
+  padding: 20px; margin-bottom: 28px;
+  border: 2px solid var(--card2);
+}
+.tap-game-title {
+  font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;
+  color: var(--soft); margin-bottom: 14px; text-align: center;
+}
+.tap-objects {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  justify-content: center; min-height: 56px;
+  margin-bottom: 14px;
+}
+.tap-obj {
+  font-size: 2.4rem; line-height: 1;
+  opacity: 0; transform: scale(0);
+  transition: opacity 0.18s, transform 0.22s cubic-bezier(0.175,0.885,0.32,1.275);
+  user-select: none;
+}
+.tap-obj.shown { opacity: 1; transform: scale(1); }
+@keyframes objBounce {
+  0%   { transform: scale(1);    }
+  45%  { transform: scale(1.45); }
+  100% { transform: scale(1);    }
+}
+.tap-obj.bounce { animation: objBounce 0.28s ease; }
+.tap-counter {
+  text-align: center;
+  font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.1rem;
+  color: var(--soft); margin-bottom: 12px;
+}
+.tap-counter span { color: white; font-size: 1.4rem; }
+.tap-btn {
+  width: 100%; padding: 20px;
+  border-radius: 18px; border: none;
+  font-family: 'Baloo 2', cursive; font-size: 1.45rem; font-weight: 800;
+  color: white; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: transform 0.12s, filter 0.15s;
+  box-shadow: 0 5px 0 rgba(0,0,0,0.25);
+}
+.tap-btn:active { transform: scale(0.95) translateY(3px); box-shadow: 0 2px 0 rgba(0,0,0,0.25); }
+.tap-done-msg {
+  text-align: center; font-family: 'Baloo 2', cursive;
+  font-weight: 800; font-size: 1.6rem;
+  min-height: 40px; margin-top: 8px;
+}
 </style>
 </head>
 <body>
@@ -583,6 +704,18 @@ transition: all 0.2s; cursor: pointer; border: none;
 <div class="splash-title" id="splashTitle">✨ Number World</div>
 <div class="splash-sub"   id="splashSub">Let's explore numbers!</div>
 </div>
+<!-- STAR REWARD BADGE -->
+<div class="stars-badge" id="starsBadge" title="Stars collected!">⭐ <span id="starCount">0</span></div>
+
+<!-- MILESTONE OVERLAY -->
+<div id="milestoneOverlay">
+  <div class="milestone-bubble">
+    <div class="milestone-num" id="milestoneNum">🎉</div>
+    <div class="milestone-msg" id="milestoneMsg">Amazing!</div>
+    <button class="milestone-close" id="milestoneClose" type="button">Keep going! ▶</button>
+  </div>
+</div>
+
 <!-- TOP CONTROLS -->
 <div class="top-controls">
   <button class="ctrl-btn active" id="soundBtn" title="Toggle voice" aria-label="Toggle voice">🔊</button>
@@ -625,21 +758,22 @@ transition: all 0.2s; cursor: pointer; border: none;
 <!-- INFO CARDS -->
 <div class="cards">
 <div class="card"><div class="label">Even or Odd?</div><div class="value" id="evenOdd">—</div></div>
-<div class="card"><div class="label">Squared</div>    <div class="value" id="squared">—</div></div>
-<div class="card"><div class="label">Double</div>     <div class="value" id="doubled">—</div></div>
-<div class="card"><div class="label">Half</div>       <div class="value" id="halved">—</div></div>
-<div class="card"><div class="label">Prime?</div>     <div class="value" id="prime">—</div></div>
-<div class="card"><div class="label">Factors</div>    <div class="value" id="factors" style="font-size:1rem">—</div></div>
+<div class="card"><div class="label">Comes Before</div><div class="value" id="comeBefore">—</div></div>
+<div class="card"><div class="label">Comes After</div> <div class="value" id="comeAfter">—</div></div>
+<div class="card"><div class="label">Double</div>      <div class="value" id="doubled">—</div></div>
 </div>
 <!-- COUNT TRACK -->
 <div class="count-bar-wrap">
 <h2>Count from 1 to <span id="countTo">1</span></h2>
 <div class="count-track" id="countTrack"></div>
 </div>
-<!-- MULTIPLICATION -->
-<div class="mult-strip">
-<h2>Multiplication table</h2>
-<div class="mult-row" id="multRow"></div>
+<!-- COUNTING TAP GAME -->
+<div class="tap-game" id="tapGame">
+  <div class="tap-game-title" id="tapGameTitle">🎮 Counting Game — tap the button to count!</div>
+  <div class="tap-objects" id="tapObjects"></div>
+  <div class="tap-counter">Tapped: <span id="tapCount">0</span> / <span id="tapTarget">1</span></div>
+  <button class="tap-btn" id="tapBtn" type="button">Tap me! ⭐</button>
+  <div class="tap-done-msg" id="tapDoneMsg"></div>
 </div>
 
 <!-- SETTINGS MODAL -->
@@ -1084,6 +1218,19 @@ function buildTower(n) {
 
       if (r === height - 1) block.classList.add('has-eyes');
 
+      // Tap a block: bounce + beep + short haptic
+      block.addEventListener('click', () => {
+        vibrate(18);
+        beepNote(blockNum);
+        block.style.animation = 'none';
+        void block.offsetWidth;
+        block.style.animation = 'bigpulse 0.28s ease-out';
+        if (soundOn) {
+          window.speechSynthesis.cancel();
+          speak(String(blockNum), 0.88);
+        }
+      });
+
       col.appendChild(block);
 
       // Staggered pop-in animation
@@ -1186,45 +1333,28 @@ function render(n) {
 
   buildTower(n);
 
-  // Cards — solid colors, no gradients
+  // Cards — kid-friendly
 
   document.getElementById('evenOdd').textContent = n % 2 === 0 ? 'Even ✨' : 'Odd 🔶';
 
   document.getElementById('evenOdd').style.color = n % 2 === 0 ? '#26a65b' : '#f7b731';
 
-  document.getElementById('squared').textContent = n * n;
+  document.getElementById('comeBefore').textContent = n > 0 ? n - 1 : '—';
 
-  document.getElementById('squared').style.color = color;
+  document.getElementById('comeBefore').style.color = color;
+
+  document.getElementById('comeAfter').textContent = n < 10000 ? n + 1 : '—';
+
+  document.getElementById('comeAfter').style.color = color;
 
   document.getElementById('doubled').textContent = n * 2;
 
   document.getElementById('doubled').style.color = color;
 
-  document.getElementById('halved').textContent = n % 2 === 0 ? n/2 : (n/2).toFixed(1);
-
-  document.getElementById('halved').style.color = color;
-
-  const isPrime = n >= 2 && n <= 9999 && (() => { for(let i=2;i<=Math.sqrt(n);i++) if(n%i===0) return false; return true; })();
-
-  document.getElementById('prime').textContent = n < 2 ? 'No' : n > 9999 ? '—' : (isPrime ? 'Yes 🌟' : 'No');
-
-  document.getElementById('prime').style.color = isPrime ? '#f7b731' : '#8892b0';
-
-  if (n <= 200) {
-
-    const facs = []; for(let i=1;i<=n;i++) if(n%i===0) facs.push(i);
-
-    document.getElementById('factors').textContent = facs.join(', ');
-
-  } else {
-
-    document.getElementById('factors').textContent = '—';
-
-  }
-
-  document.getElementById('factors').style.color = color;
-
   document.querySelectorAll('.card').forEach(c => c.style.borderColor = color);
+
+  // Tap game — reset when number changes
+  initTapGame(n);
 
   // Count track — show the counting sequence for this mode
 
@@ -1259,6 +1389,17 @@ function render(n) {
     box.title = num.toLocaleString();
 
     track.appendChild(box);
+
+    box.addEventListener('click', () => {
+      vibrate(20);
+      if (soundOn) {
+        window.speechSynthesis.cancel();
+        speak(String(num), 0.86);
+      }
+      box.style.animation = 'none';
+      void box.offsetWidth;
+      box.style.animation = 'bigpulse 0.28s ease-out';
+    });
 
     setTimeout(() => {
 
@@ -1349,6 +1490,8 @@ function go(n) {
 
   el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse');
 
+  vibrate(25);
+
   // Update mode badge
 
   updateModeBadge(n);
@@ -1356,6 +1499,9 @@ function go(n) {
   render(n);
 
   savePrefs({ current });
+
+  // Check milestones after a short delay so speech doesn't collide
+  setTimeout(() => checkMilestone(n), 1800);
 
 }
 
@@ -1691,6 +1837,193 @@ document.body.addEventListener('click', () => {
 }, { once: true });
 
 window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Haptic feedback
+// ─────────────────────────────────────────────────────────────────────────────
+function vibrate(pattern) {
+  try { if (navigator.vibrate) navigator.vibrate(pattern); } catch(_) {}
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Star reward counter
+// ─────────────────────────────────────────────────────────────────────────────
+let starTotal = 0;
+(function initStars() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('nw.stars') || '0');
+    if (typeof saved === 'number' && saved >= 0) starTotal = saved;
+  } catch(_) {}
+  document.getElementById('starCount').textContent = starTotal;
+})();
+
+function awardStar(n) {
+  starTotal += n;
+  try { localStorage.setItem('nw.stars', JSON.stringify(starTotal)); } catch(_) {}
+  const badge = document.getElementById('starsBadge');
+  const ct = document.getElementById('starCount');
+  ct.textContent = starTotal;
+  badge.classList.remove('bump');
+  void badge.offsetWidth;
+  badge.classList.add('bump');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Confetti burst
+// ─────────────────────────────────────────────────────────────────────────────
+const CONFETTI_COLORS = ['#e63946','#f4722b','#f7b731','#26a65b','#2980b9','#e91e8c','#8e44ad','#FFD700'];
+
+function launchConfetti(count) {
+  count = count || 40;
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const p = document.createElement('div');
+      p.className = 'confetti-piece';
+      const dur = (1.2 + Math.random() * 1.2).toFixed(2) + 's';
+      p.style.setProperty('--cdur', dur);
+      p.style.left  = (5 + Math.random() * 90) + 'vw';
+      p.style.top   = '-12px';
+      p.style.background = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+      p.style.borderRadius = Math.random() > 0.5 ? '50%' : '3px';
+      document.body.appendChild(p);
+      p.addEventListener('animationend', () => p.remove());
+    }, i * 38);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Milestone celebrations
+// ─────────────────────────────────────────────────────────────────────────────
+const MILESTONES = {
+  5:    { msg: 'High five! 🖐',     stars: 1, color: '#2980b9' },
+  10:   { msg: 'Ten! Amazing! 🎉',  stars: 2, color: '#e63946' },
+  20:   { msg: 'Twenty! Wow! 🌟',   stars: 3, color: '#f4722b' },
+  50:   { msg: 'Fifty! Super! 🚀',  stars: 5, color: '#8e44ad' },
+  100:  { msg: 'ONE HUNDRED! 🏆',   stars: 10, color: '#FFD700' },
+};
+
+let lastMilestone = -1;
+
+function checkMilestone(n) {
+  if (n === lastMilestone) return;
+  const m = MILESTONES[n];
+  if (!m) return;
+  lastMilestone = n;
+
+  launchConfetti(n === 100 ? 80 : 50);
+  vibrate([80, 60, 80, 60, 120]);
+  awardStar(m.stars);
+
+  const overlay = document.getElementById('milestoneOverlay');
+  const numEl   = document.getElementById('milestoneNum');
+  const msgEl   = document.getElementById('milestoneMsg');
+  const closeEl = document.getElementById('milestoneClose');
+
+  numEl.textContent  = n;
+  numEl.style.color  = m.color;
+  msgEl.textContent  = m.msg;
+  closeEl.style.background = m.color;
+
+  overlay.classList.add('show');
+
+  if (soundOn) {
+    setTimeout(() => speak(m.msg.replace(/[^a-z0-9 !]/gi,''), 0.8), 300);
+  }
+
+  function closeMilestone() {
+    overlay.classList.remove('show');
+    closeEl.removeEventListener('click', closeMilestone);
+    overlay.removeEventListener('click', closeMilestone);
+  }
+  closeEl.addEventListener('click', closeMilestone);
+  setTimeout(() => overlay.addEventListener('click', closeMilestone), 600);
+  setTimeout(closeMilestone, 6000);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Counting Tap Game
+// ─────────────────────────────────────────────────────────────────────────────
+const TAP_EMOJIS = ['⭐','🍎','🐸','🌈','🦁','🍓','🐘','🌸','🍕','🎈','🐠','🌻'];
+
+let tapGameCount = 0;
+let tapGameTarget = 1;
+let tapGameDone = false;
+let tapGameEmoji = '⭐';
+
+function initTapGame(n) {
+  tapGameCount  = 0;
+  tapGameTarget = Math.min(n, 20); // cap at 20 for sanity
+  tapGameDone   = false;
+  tapGameEmoji  = TAP_EMOJIS[n % TAP_EMOJIS.length];
+
+  document.getElementById('tapObjects').innerHTML = '';
+  document.getElementById('tapCount').textContent  = '0';
+  document.getElementById('tapTarget').textContent = tapGameTarget;
+  document.getElementById('tapDoneMsg').textContent = '';
+
+  const btn = document.getElementById('tapBtn');
+  btn.style.background = colorFor(n);
+  btn.textContent = `Tap me! ${tapGameEmoji}`;
+  btn.disabled = (n === 0);
+
+  const titleEl = document.getElementById('tapGameTitle');
+  titleEl.textContent = n === 0
+    ? '🎮 Pick a number first!'
+    : `🎮 Tap ${tapGameTarget} time${tapGameTarget===1?'':'s'} to count the ${tapGameEmoji}`;
+}
+
+document.getElementById('tapBtn').addEventListener('click', () => {
+  if (tapGameDone) { initTapGame(current); return; }
+  if (tapGameCount >= tapGameTarget) return;
+
+  vibrate(30);
+  tapGameCount++;
+
+  // Spawn object
+  const obj = document.createElement('div');
+  obj.className = 'tap-obj';
+  obj.textContent = tapGameEmoji;
+  document.getElementById('tapObjects').appendChild(obj);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => obj.classList.add('shown'));
+  });
+
+  // Beep
+  beepNote(tapGameCount);
+
+  document.getElementById('tapCount').textContent = tapGameCount;
+
+  if (tapGameCount >= tapGameTarget) {
+    tapGameDone = true;
+    document.getElementById('tapDoneMsg').textContent = '🎉 You counted them all!';
+    document.getElementById('tapBtn').textContent = `Play again! 🔄`;
+    launchConfetti(30);
+    vibrate([60, 40, 60, 40, 100]);
+    awardStar(1);
+    if (soundOn) setTimeout(() => speak('You counted them all!', 0.82), 200);
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Touch swipe navigation (left = next, right = prev)
+// ─────────────────────────────────────────────────────────────────────────────
+(function setupSwipe() {
+  let startX = 0, startY = 0, moved = false;
+  document.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    moved = false;
+  }, { passive: true });
+  document.addEventListener('touchmove', () => { moved = true; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    if (!moved) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    if (dx < 0) { vibrate(20); goNext(); }
+    else         { vibrate(20); goPrev(); }
+  }, { passive: true });
+})();
 
 // ── Init ──
 
