@@ -1507,36 +1507,6 @@ function render(n) {
 
   });
 
-  // Multiplication pills
-
-  const multRow = document.getElementById('multRow');
-
-  multRow.innerHTML = '';
-
-  for (let i = 1; i <= 12; i++) {
-
-    const pill = document.createElement('button');
-
-    pill.className = 'mult-pill';
-
-    pill.textContent = `${n} × ${i} = ${n*i}`;
-
-    pill.addEventListener('mouseenter', () => { pill.style.background = color; pill.style.color = 'white'; });
-
-    pill.addEventListener('mouseleave', () => { pill.style.background = ''; pill.style.color = ''; });
-
-    pill.addEventListener('click', () => {
-
-      window.speechSynthesis.cancel();
-
-      speak(`${n} times ${i} equals ${n*i}`, 0.82);
-
-    });
-
-    multRow.appendChild(pill);
-
-  }
-
 }
 
 // Smart step: 1-100 by 1, 100-1000 by 100, 1000-10000 by 1000
