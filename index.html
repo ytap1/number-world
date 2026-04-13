@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Number World — Free Autism-Friendly Counting App | InfinifyShop</title>
 <meta name="description" content="Number World is a free, sensory-friendly counting app for children on the autism spectrum. Tap numbers, hear them spoken, and count along! Created by InfinifyShop — supporting autism awareness and families worldwide.">
 <!-- Open Graph / Facebook -->
@@ -27,7 +27,7 @@
 
 /* ── RESET & BASE ── */
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; touch-action: manipulation; }
 
   :root {
 
@@ -972,6 +972,14 @@ transition: all 0.2s; cursor: pointer; border: none;
 
 <script>
 'use strict';
+
+// ── Block double-tap zoom ──
+var _lastTap = 0;
+document.addEventListener('touchend', function(e) {
+  var now = Date.now();
+  if (now - _lastTap < 500) e.preventDefault();
+  _lastTap = now;
+}, { passive: false });
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Persistence
